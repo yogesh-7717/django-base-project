@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table,
+        tr,
+        td,
+        th {
+            border: 1px solid black;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div>
+        {% if messages %}
+
+        {% for message in messages %}
+        <span>{{ message }}</span>
+        {% endfor %}
+        {% endif %}
+    </div>
+    {% if request.user.is_authenticated %}
+    <h1>Hello, {{ request.user.username }}!</h1>
+
+    {% endif %}
+    <a href="/account/logout"
+        style="background: black; color: white; padding: 10px; border-radius: 8px; text-decoration: none;">logout</a>
+    <table style="margin-top: 10px; ">
+        <tr>
+            <th>s.no</th>
+            <th>title</th>
+            <th>note</th>
+            <th>Created At</th>
+            <th>Created By</th>
+            <th>action buttons</th>
+        </tr>
+        {% for note in notes %}
+        <tr>
+            <td>{{ note.id}} </td>
+            <td>{{ note.title}}</td>
+            <td>{{ note.note }}</td>
+            <td>{{ note.created_at }}</td>
+            <td>{{ note.created_by}}</td>
+            <td><a type="button" href="update_note/{{ note.id }}">Edit</a>
+                {% if request.user.is_superuser %}
+                <a type="button" href="delete_note/{{note.id}}">Delete</a>
+            </td>
+            {% else %}
+            <a type="button" href="delete_note/{{note.id}}" style="pointer-events: none;">Delete</a></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="{% url 'add_note' %}">Add Item</a>
+
+</body>
+</html>

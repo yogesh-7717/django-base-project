@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.github',
 ]
 
 MIDDLEWARE = [
@@ -114,7 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Calcutta'
 
 USE_I18N = True
 
@@ -141,7 +142,8 @@ AUTHENTICATION_BACKENDS = [
 # Setup allauth parameters
 SITE_ID = 2
 # LOGIN_REDIRECT_URL :- destination of login page in your urls.py
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_URL ='home'
 # ACCOUNT_LOGOUT_REDIRECT :- where to redirect when user logout
 ACCOUNT_LOGOUT_REDIRECT = '/'
 
@@ -149,5 +151,13 @@ SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': ['profile', 'email'],
         'AUTH_PARAMS': {'access_type': 'online'},
+    },
+     'github': {
+        'METHOD': 'oauth2',
+        'SCOPE': ['user:email'],
+        'APP': {
+            'client_id': 'YOUR_CLIENT_ID',
+            'secret': 'YOUR_CLIENT_SECRET',
+        }
     }
 }
